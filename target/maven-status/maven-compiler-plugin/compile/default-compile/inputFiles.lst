@@ -1,0 +1,8 @@
+C:\dev\curso-microservicos\api-gtw-bff-client\client-service\src\main\java\com\example\clienteservice\service\ClientEventPublisher.java
+C:\dev\curso-microservicos\api-gtw-bff-client\client-service\src\main\java\com\example\clienteservice\command\CreateClientCommand.java
+C:\dev\curso-microservicos\api-gtw-bff-client\client-service\src\main\java\com\example\clienteservice\command\ClientCommandListener.java
+C:\dev\curso-microservicos\api-gtw-bff-client\client-service\src\main\java\com\example\clienteservice\entity\Client.java
+C:\dev\curso-microservicos\api-gtw-bff-client\client-service\src\main\java\com\example\clienteservice\repository\ClientRepository.java
+C:\dev\curso-microservicos\api-gtw-bff-client\client-service\src\main\java\com\example\clienteservice\ClienteServiceApplication.java
+C:\dev\curso-microservicos\api-gtw-bff-client\client-service\src\main\java\com\example\clienteservice\controller\ClientController.java
+C:\dev\curso-microservicos\api-gtw-bff-client\client-service\src\main\java\com\example\clienteservice\config\RabbitConfig.java

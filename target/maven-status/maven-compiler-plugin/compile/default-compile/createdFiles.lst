@@ -1,0 +1,8 @@
+com\example\clienteservice\service\ClientEventPublisher.class
+com\example\clienteservice\config\RabbitConfig.class
+com\example\clienteservice\controller\ClientController.class
+com\example\clienteservice\entity\Client.class
+com\example\clienteservice\repository\ClientRepository.class
+com\example\clienteservice\ClienteServiceApplication.class
+com\example\clienteservice\command\ClientCommandListener.class
+com\example\clienteservice\command\CreateClientCommand.class
