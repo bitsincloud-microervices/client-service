@@ -1,4 +1,4 @@
-package com.example.clienteservice.config;
+package br.com.bitsincloud.clientservice.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;

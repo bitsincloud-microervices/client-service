@@ -1,4 +1,4 @@
-package com.example.clienteservice.command;
+package br.com.bitsincloud.clientservice.command;
 
 import lombok.Data;
 

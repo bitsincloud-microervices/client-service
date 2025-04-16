@@ -1,4 +1,4 @@
-package com.example.clienteservice.entity;
+package br.com.bitsincloud.clientservice.entity;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;

@@ -1,7 +1,7 @@
-package com.example.clienteservice.command;
+package br.com.bitsincloud.clientservice.command;
 
-import com.example.clienteservice.entity.Client;
-import com.example.clienteservice.repository.ClientRepository;
+import br.com.bitsincloud.clientservice.entity.Client;
+import br.com.bitsincloud.clientservice.repository.ClientRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Component;

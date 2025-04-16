@@ -1,4 +1,4 @@
-package com.example.clienteservice;
+package br.com.bitsincloud.clientservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

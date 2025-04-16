@@ -1,6 +1,6 @@
-package com.example.clienteservice.entity;
+package br.com.bitsincloud.clientservice.entity;
 
-import com.example.clienteservice.util.DateUtils;
+import br.com.bitsincloud.clientservice.util.DateUtils;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.EnumType;

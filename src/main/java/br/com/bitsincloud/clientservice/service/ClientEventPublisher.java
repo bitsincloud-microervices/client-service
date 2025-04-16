@@ -1,6 +1,6 @@
-package com.example.clienteservice.service;
+package br.com.bitsincloud.clientservice.service;
 
-import com.example.clienteservice.entity.Client;
+import br.com.bitsincloud.clientservice.entity.Client;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;

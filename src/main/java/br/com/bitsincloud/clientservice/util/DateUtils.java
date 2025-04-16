@@ -1,4 +1,4 @@
-package com.example.clienteservice.util;
+package br.com.bitsincloud.clientservice.util;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

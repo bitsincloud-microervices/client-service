@@ -1,8 +1,8 @@
-package com.example.clienteservice.controller;
+package br.com.bitsincloud.clientservice.controller;
 
-import com.example.clienteservice.entity.Client;
-import com.example.clienteservice.repository.ClientRepository;
-import com.example.clienteservice.service.ClientEventPublisher;
+import br.com.bitsincloud.clientservice.entity.Client;
+import br.com.bitsincloud.clientservice.repository.ClientRepository;
+import br.com.bitsincloud.clientservice.service.ClientEventPublisher;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
