@@ -12,7 +12,7 @@ public class OrderCommandListener {
 
     private final OrderRepository repository;
 
-    @RabbitListener(queues = "command-create-client-queue")
+    @RabbitListener(queues = "command-create-order-queue")
     public void handleCommand(CreateOrderCommand command) {
         Order order = new Order();
         order.setOrderId(command.getOrderId());
