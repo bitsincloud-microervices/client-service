@@ -2,8 +2,6 @@ package br.com.bitsincloud.clientservice.controller;
 
 import br.com.bitsincloud.clientservice.dto.ClientRequestDTO;
 import br.com.bitsincloud.clientservice.dto.ClientResponseDTO;
-import br.com.bitsincloud.clientservice.entity.Client;
-import br.com.bitsincloud.clientservice.repository.ClientRepository;
 import br.com.bitsincloud.clientservice.service.ClientService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,15 +10,15 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/clients")
-@RequiredArgsConstructor
 //TODO: Add Swagger documentation
 //TODO: Adjust to RFC about HTTP status codes RFC 9110
 //TODO: RFC 7807 (Problem Details for HTTP APIs)
 //TODO: Add exception handling
 //TODO: Add logging
 //TODO: Add unit tests
+@RestController
+@RequestMapping("/clients")
+@RequiredArgsConstructor
 public class ClientController {
 
     private final ClientService service;
