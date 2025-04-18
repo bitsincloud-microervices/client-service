@@ -1,4 +1,4 @@
-package br.com.bitsincloud.clientservice.util;
+package br.com.bitsincloud.crdereservice.util;
 
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

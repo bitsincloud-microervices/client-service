@@ -1,11 +1,11 @@
-package br.com.bitsincloud.clientservice;
+package br.com.bitsincloud.crdereservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class ClienteServiceApplication {
+public class RunApplication {
     public static void main(String[] args) {
-        SpringApplication.run(ClienteServiceApplication.class, args);
+        SpringApplication.run(RunApplication.class, args);
     }
 }

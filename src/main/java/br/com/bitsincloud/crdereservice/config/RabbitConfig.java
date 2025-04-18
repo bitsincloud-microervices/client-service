@@ -1,4 +1,4 @@
-package br.com.bitsincloud.clientservice.config;
+package br.com.bitsincloud.crdereservice.config;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
@@ -13,9 +13,9 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitConfig {
 
-    public static final String EXCHANGE_NAME = "command-client-exchange";
-    public static final String QUEUE_NAME = "command-create-client-queue";
-    public static final String ROUTING_KEY = "command-create-client";
+    public static final String EXCHANGE_NAME = "command-order-exchange";
+    public static final String QUEUE_NAME = "command-create-order-queue";
+    public static final String ROUTING_KEY = "command-create-order";
 
     @Bean
     public Queue commandCreateClientQueue() {

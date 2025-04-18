@@ -1,7 +1,7 @@
-CREATE TABLE tb_client (
+CREATE TABLE tb_order (
   id UUID DEFAULT uuid_generate_v4() NOT NULL,
-  name varchar(255) NOT NULL UNIQUE,
-  email varchar(255) NOT NULL,
+  order_id varchar(255) NOT NULL UNIQUE,
+  amount numeric(19,2) NOT NULL,
   status varchar(255) NOT NULL,
   create_by varchar(255) NOT NULL DEFAULT 'system_user',
   created_date timestamp DEFAULT CURRENT_DATE,

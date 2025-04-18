@@ -1,6 +1,6 @@
-package br.com.bitsincloud.clientservice.service;
+package br.com.bitsincloud.crdereservice.service;
 
-import br.com.bitsincloud.clientservice.entity.Client;
+import br.com.bitsincloud.crdereservice.entity.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class ClientEventPublisher {
+public class OrderEventPublisher {
 
 
     @Value("${spring.rabbitmq.publisher.exchange}")
@@ -19,7 +19,7 @@ public class ClientEventPublisher {
 
     private final RabbitTemplate rabbitTemplate;
 
-    public void publish(Client client) {
+    public void publish(Order client) {
         rabbitTemplate.convertAndSend(exchange, routingKey, client);
     }
 }
