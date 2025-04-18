@@ -1,11 +1,15 @@
+br\com\bitsincloud\clientservice\gateway\ClientEventPublisher.class
+br\com\bitsincloud\clientservice\RunApplication.class
 br\com\bitsincloud\clientservice\config\RabbitConfig.class
 br\com\bitsincloud\clientservice\entity\Client.class
+br\com\bitsincloud\clientservice\service\ClientService.class
 br\com\bitsincloud\clientservice\entity\AuditDomain.class
 br\com\bitsincloud\clientservice\command\CreateClientCommand.class
-br\com\bitsincloud\clientservice\service\ClientEventPublisher.class
+br\com\bitsincloud\clientservice\dto\ClientRequestDTO.class
+br\com\bitsincloud\clientservice\dto\ClientResponseDTO.class
 br\com\bitsincloud\clientservice\entity\Status.class
 br\com\bitsincloud\clientservice\command\ClientCommandListener.class
+br\com\bitsincloud\clientservice\mapper\ClientMapper.class
 br\com\bitsincloud\clientservice\util\DateUtils.class
 br\com\bitsincloud\clientservice\controller\ClientController.class
 br\com\bitsincloud\clientservice\repository\ClientRepository.class
-br\com\bitsincloud\clientservice\ClienteServiceApplication.class

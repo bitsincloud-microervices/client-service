@@ -33,6 +33,10 @@ make up
 docker exec -it client-service-postgres psql -U postgres -d client-db
 client-db=#
 \dt
+docker exec -it client-service-postgres psql -U postgres -d postgres -c 'DROP DATABASE IF EXISTS "client-db";'
+docker exec -it client-service-postgres psql -U postgres -d postgres -c 'CREATE DATABASE "client-db";'
+
+docker exec -it client-service-postgres psql -U postgres -d postgres -c "SELECT pg_terminate_backend(pid) FROM pg_stat_activity WHERE datname = 'client-db';"
 
 public | flyway_schema_history | ...
 SELECT * FROM flyway_schema_history;
@@ -62,3 +66,5 @@ Edit
 📄 mvnw.cmd
 ===
 ./mvnw clean package -DskipTests
+
+make docker-push ENABLE_DOCKER_PUSH=true
