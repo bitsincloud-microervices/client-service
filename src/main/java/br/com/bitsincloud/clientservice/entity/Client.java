@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import org.aspectj.apache.bcel.generic.InstructionConstants;
 
 import java.util.UUID;
 
@@ -27,4 +28,6 @@ public class Client extends AuditDomain {
 
     @Email(message = "Email inválido")
     private String email;
+
+    private String whatsapp;
 }
