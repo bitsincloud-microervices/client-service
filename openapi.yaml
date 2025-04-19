@@ -1,0 +1,108 @@
+openapi: 3.0.1
+info:
+  title: Client Service API
+  description: API de gerenciamento de clientes com Spring Boot 3
+  version: v1
+servers:
+- url: http://localhost:9094/api
+  description: Generated server url
+tags:
+- name: Clientes
+  description: Operações relacionadas a clientes
+paths:
+  /v1/clients:
+    get:
+      tags:
+      - Clientes
+      summary: Busca cliente por ID
+      description: Retorna os dados do cliente correspondente ao ID informado
+      operationId: list
+      parameters:
+      - name: id
+        in: query
+        description: ID do cliente
+        required: true
+      responses:
+        "200":
+          description: Cliente encontrado com sucesso
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientResponseDTO'
+        "404":
+          description: Cliente não encontrado
+          content:
+            '*/*':
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClientResponseDTO'
+    post:
+      tags:
+      - Clientes
+      summary: Cria um novo cliente
+      description: Cria e retorna os dados do cliente criado
+      operationId: create
+      parameters:
+      - name: clientRequestDTO
+        in: query
+        description: Dados do cliente a ser criado
+        required: true
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClientRequestDTO'
+        required: true
+      responses:
+        "400":
+          description: Erro de validação
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ClientResponseDTO'
+        "201":
+          description: Cliente criado com sucesso
+          content:
+            '*/*':
+              schema:
+                $ref: '#/components/schemas/ClientResponseDTO'
+components:
+  schemas:
+    ClientRequestDTO:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Nome do cliente
+          example: João da Silva
+        email:
+          type: string
+          description: Email do cliente
+          example: root@localhost
+        whatsapp:
+          type: string
+          description: Telefone do cliente
+          example: (11) 91234-5678
+    ClientResponseDTO:
+      type: object
+      properties:
+        id:
+          type: string
+          description: ID do cliente
+          format: uuid
+          example: 123e4567-e89b-12d3-a456-426614174000
+        name:
+          type: string
+          description: Nome do cliente
+          example: João da Silva
+        email:
+          type: string
+          description: Email do cliente
+          example: root@localhost
+        whatsapp:
+          type: string
+          description: Telefone do cliente
+          example: (11) 91234-5678

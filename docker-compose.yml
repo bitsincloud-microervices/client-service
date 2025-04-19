@@ -1,0 +1,55 @@
+services:
+  rabbit:
+    image: rabbitmq:3-management
+    container_name: client-service-rabbit
+    ports:
+      - "5672:5672"
+      - "15672:15672" # painel web
+    environment:
+      RABBITMQ_DEFAULT_USER: ${SPRING_RABBITMQ_USERNAME}
+      RABBITMQ_DEFAULT_PASS: ${SPRING_RABBITMQ_PASSWORD}
+    healthcheck:
+      test: [ "CMD", "rabbitmq-diagnostics", "check_running" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  postgres:
+    image: postgres:16
+    container_name: client-service-postgres
+    environment:
+      POSTGRES_DB: client-db
+      POSTGRES_USER: ${DATABASE_USERNAME}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    build: .
+    container_name: client-service-api
+    ports:
+      - "9093:9093"
+    environment:
+      DATABASE_URL: ${DATABASE_URL}
+      DATABASE_USERNAME: ${DATABASE_USERNAME}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD}
+      SPRING_RABBITMQ_HOST: ${SPRING_RABBITMQ_HOST}
+      SPRING_RABBITMQ_PORT: ${SPRING_RABBITMQ_PORT}
+      SPRING_RABBITMQ_USERNAME: ${SPRING_RABBITMQ_USERNAME}
+      SPRING_RABBITMQ_PASSWORD: ${SPRING_RABBITMQ_PASSWORD}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbit:
+        condition: service_healthy
+
+volumes:
+  pgdata:

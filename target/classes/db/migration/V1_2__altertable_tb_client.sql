@@ -1,0 +1,1 @@
+ALTER TABLE tb_client ADD whatsapp VARCHAR(255);
