@@ -1,5 +1,7 @@
 server:
   port: 9094
+  servlet:
+    context-path: /api
 
 spring:
   config:
@@ -60,3 +62,9 @@ spring:
 
 client:
   publish-enabled: ${CLIENT_PUBLISH_ENABLED:true}
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true

@@ -68,3 +68,15 @@ Edit
 ./mvnw clean package -DskipTests
 
 make docker-push ENABLE_DOCKER_PUSH=true
+
+======
+Swagger UI: http://192.168.100.197:9094/api/swagger-ui/index.html
+OpenAPI JSON: http://192.168.100.197:9094/api/v3/api-docs
+
+ou 
+
+Swagger UI: http://localhost:9094/api/swagger-ui/index.html
+OpenAPI JSON: http://localhost:9094/api/v3/api-docs
+
+# Gerar o arquivo openapi.yaml
+curl http://localhost:9094/api/v3/api-docs.yaml -o openapi.yaml
