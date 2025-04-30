@@ -1,0 +1,90 @@
+server:
+  port: 9094
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+        name: client-service
+  config:
+    activate:
+      on-profile: ${SPRING_PROFILES_ACTIVE:dev}
+  cloud:
+    loadbalancer:
+      ribbon:
+        ConnectTimeout: 10000
+        ReadTimeout: 10000
+  datasource:
+    url: ${DATABASE_URL}
+    username: ${DATABASE_USERNAME}
+    password: ${DATABASE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    connectionTimeout: 30000
+    idleTimeout: 30000
+    max-open-prepared-statements: 250
+    maxLifetime: 2000000
+    maximumPoolSize: 5
+    minimumIdle: 3
+    pool-prepared-statements: true
+    poolName: SpringBootHikariCP
+    hikari:
+      connection-timeout: '60000'
+    #url: jdbc:h2:mem:orderV4-db
+    #driver-class-name: org.h2.Driver
+    #username: sa
+    #password: sa
+  #h2:
+    #console:
+      #enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    validate-on-migrate: true
+    locations: classpath:db/migration #, classpath:db/callback
+  rabbitmq:
+    host: ${SPRING_RABBITMQ_HOST:localhost}
+    port: ${SPRING_RABBITMQ_PORT:5672}
+    username: ${SPRING_RABBITMQ_USERNAME:guest}
+    password: ${SPRING_RABBITMQ_PASSWORD:guest}
+    listener:
+      simple:
+        default-requeue-rejected: false
+      template:
+        exchange: command-client-exchange
+        routing-key: order.command-create-client
+      queue: command-create-client-queue
+    publisher:
+      exchange: command-client-exchange
+      routing-key: order.command-create-client
+      queue: command-create-client-queue
+
+client:
+  publish-enabled: ${CLIENT_PUBLISH_ENABLED:true}
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+    register-with-eureka: true
+    fetch-registry: true
+    registry-fetch-interval-seconds: 10
+    initial-instance-info-replication-interval-seconds: 5
+    instance-info-replication-interval-seconds: 10
+  instance:
+    prefer-ip-address: true
+

@@ -80,3 +80,9 @@ OpenAPI JSON: http://localhost:9094/api/v3/api-docs
 
 # Gerar o arquivo openapi.yaml
 curl http://localhost:9094/api/v3/api-docs.yaml -o openapi.yaml
+
+-----
+# Gerar o arquivo openapi.json
+docker-compose up rabbit postgres config-server
+docker-compose up -d rabbit postgres config-server
+docker-compose logs -f config-server

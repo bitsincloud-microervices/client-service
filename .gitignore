@@ -88,3 +88,6 @@ lib*.pc
 /Release/
 /tmp_install/
 /portlock/
+/pgdata/
+/logs/
+/config-server/
