@@ -10,10 +10,12 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
 @Table(name = "tb_client")
+@Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
@@ -36,4 +38,12 @@ public class Client extends AuditDomain {
 
     @Schema(description = "Telefone do cliente", example = "(11) 91234-5678")
     private String whatsapp;
+
+    @Schema(description = "CPF do cliente", example = "123.456.789-00")
+    private String phone;
+
+
+    @Schema(description = "ID do Edereço no sistema de terceiros", example = "123e4567-e89b-12d3-a456-426614174000")
+    @Column(name = "address_id")
+    private UUID addressId;
 }

@@ -86,3 +86,7 @@ curl http://localhost:9094/api/v3/api-docs.yaml -o openapi.yaml
 docker-compose up rabbit postgres config-server
 docker-compose up -d rabbit postgres config-server
 docker-compose logs -f config-server
+
+curl -X GET http://localhost:9094/api/v1/toogle
+
+http://localhost:9094/api/actuator/env

@@ -1,0 +1,5 @@
+package br.com.bitsincloud.clientservice.domain.entity;
+
+public enum SocialNetworkType {
+    LINKEDIN, INSTAGRAM, FACEBOOK, TWITTER, YOUTUBE, TIKTOK, WHATSAPP, TELEGRAM, PINTEREST, SNAPCHAT, REDDIT, TUMBLR, DISCORD, GITHUB, GITLAB, BITBUCKET, SLACK, SKYPE, ZOOM
+}

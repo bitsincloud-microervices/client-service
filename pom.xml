@@ -98,11 +98,25 @@
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
         <!-- Antes (Spring Boot 2.x) no spring boot 3 usar o application.yml e não boostrap.yml -->
-        <dependency>
+        <!-- Essa dependencia dá problema com as filas do rabbit do bus-refrash, não é aconselhavel usar. -->
+        <!--dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-bootstrap</artifactId>
+        </dependency -->
+        <dependency>
+            <groupId>br.com.caelum.stella</groupId>
+            <artifactId>caelum-stella-core</artifactId>
+            <version>2.1.2</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-bus-amqp</artifactId>
+        </dependency>
+        <!-- Na versão Spring Cloud 2023.x, se você não usa stream binder explícito (exemplo: spring-cloud-starter-stream-rabbit), o Spring Boot cria filas anônimas por design. -->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

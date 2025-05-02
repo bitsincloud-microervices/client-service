@@ -11,11 +11,14 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.net.URI;
 import java.util.List;
+import java.util.UUID;
 
 //TODO: Add Swagger documentation
 //TODO: Adjust to RFC about HTTP status codes RFC 9110
@@ -74,7 +77,22 @@ public class ClientController {
     )
     public ResponseEntity<ClientResponseDTO> getById(
             @Parameter(description = "ID do cliente", required = true)
-            @PathVariable Long id) {
+            @PathVariable UUID id) {
         return ResponseEntity.ok(service.findById(id));
     }
+
+    @PostMapping("/{id}/upload")
+    public ResponseEntity<String> uploadDocument(
+            @PathVariable UUID id,
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("type") String type
+    ) {
+        try {
+            String path = service.uploadFile(file, id, type);
+            return ResponseEntity.ok("Arquivo salvo em: " + path);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro: " + e.getMessage());
+        }
+    }
+
 }
