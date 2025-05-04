@@ -8,11 +8,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.Locale;
 import java.util.stream.Collectors;
@@ -26,60 +28,91 @@ public class GlobalExceptionHandler {
     private MessageSource messageSource;
 
     @ExceptionHandler(ClientNotFoundException.class)
-    public ResponseEntity<ApiErrorResponse> handleClientNotFound(ClientNotFoundException ex, HttpServletRequest request) {
-        return buildResponse(ex, HttpStatus.NOT_FOUND, request.getRequestURI());
+    public ResponseEntity<ProblemDetail> handleClientNotFound(ClientNotFoundException ex, HttpServletRequest request) {
+        return buildProblemDetail(
+                ex,
+                HttpStatus.NOT_FOUND,
+                request.getRequestURI(),
+                "https://errors.bitsincloud.com/client/not-found"
+        );
     }
 
     @ExceptionHandler(NoClientsFoundException.class)
-    public ResponseEntity<ApiErrorResponse> handleNoClientsFound(NoClientsFoundException ex, HttpServletRequest request) {
-        return buildResponse(ex, HttpStatus.NOT_FOUND, request.getRequestURI());
+    public ResponseEntity<ProblemDetail> handleNoClientsFound(NoClientsFoundException ex, HttpServletRequest request) {
+        return buildProblemDetail(
+                ex,
+                HttpStatus.NOT_FOUND,
+                request.getRequestURI(),
+                "https://errors.bitsincloud.com/client/no-clients-found"
+        );
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<ApiErrorResponse> handleValidation(MethodArgumentNotValidException ex, HttpServletRequest request) {
+    public ResponseEntity<ProblemDetail> handleValidation(MethodArgumentNotValidException ex, HttpServletRequest request) {
         String message = ex.getBindingResult().getFieldErrors().stream()
                 .map(field -> field.getField() + ": " + field.getDefaultMessage())
                 .collect(Collectors.joining("; "));
 
-        return buildResponse(new Exception(message), HttpStatus.BAD_REQUEST, request.getRequestURI());
-    }
-
-    // Exceção genérica
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ApiErrorResponse> handleGeneric(Exception ex, HttpServletRequest request) {
-        return buildResponse(ex, HttpStatus.INTERNAL_SERVER_ERROR, request.getRequestURI());
+        return buildProblemDetail(
+                new Exception(message),
+                HttpStatus.BAD_REQUEST,
+                request.getRequestURI(),
+                "https://errors.bitsincloud.com/client/validation-error"
+        );
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
-    public ResponseEntity<ApiErrorResponse> handleDataIntegrity(DataIntegrityViolationException ex, HttpServletRequest request) {
+    public ResponseEntity<ProblemDetail> handleDataIntegrity(DataIntegrityViolationException ex, HttpServletRequest request) {
         String message = "Violação de integridade de dados";
+        String type = "https://errors.bitsincloud.com/client/integrity-violation";
 
         if (ex.getCause() instanceof ConstraintViolationException cve) {
             String constraint = cve.getConstraintName();
             if (constraint != null && constraint.contains("tb_client_name_key")) {
                 String duplicatedName = extractValue(cve.getSQLException().getMessage());
 
-                Locale locale = request.getLocale(); // detecta do Accept-Language
+                Locale locale = request.getLocale();
                 message = messageSource.getMessage(
                         "client.name.duplicate",
                         new Object[]{duplicatedName},
                         locale
                 );
+
+                type = "https://errors.bitsincloud.com/client/duplicated-name";
             }
         }
 
-        return buildResponse(new Exception(message), HttpStatus.CONFLICT, request.getRequestURI());
+        return buildProblemDetail(
+                new Exception(message),
+                HttpStatus.CONFLICT,
+                request.getRequestURI(),
+                type
+        );
     }
 
-    private ResponseEntity<ApiErrorResponse> buildResponse(Exception ex, HttpStatus status, String path) {
-        ApiErrorResponse response = new ApiErrorResponse(
-                LocalDateTime.now(),
-                status.value(),
-                status.getReasonPhrase(),
-                ex.getMessage(),
-                path
+    // Exceção genérica
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<ProblemDetail> handleGeneric(Exception ex, HttpServletRequest request) {
+        return buildProblemDetail(
+                ex,
+                HttpStatus.INTERNAL_SERVER_ERROR,
+                request.getRequestURI(),
+                "https://errors.bitsincloud.com/unexpected-error"
         );
-        return ResponseEntity.status(status).body(response);
+    }
+
+    private ResponseEntity<ProblemDetail> buildProblemDetail(Exception ex, HttpStatus status, String path, String type) {
+        ProblemDetail problem = ProblemDetail.forStatusAndDetail(
+                status,
+                ex.getMessage()
+        );
+        problem.setTitle(status.getReasonPhrase());
+        problem.setInstance(URI.create(path));
+        problem.setType(URI.create(type));
+
+        logger.error("Erro capturado: {} - {}", type, ex.getMessage());
+
+        return ResponseEntity.status(status).body(problem);
     }
 
     private String extractValue(String raw) {

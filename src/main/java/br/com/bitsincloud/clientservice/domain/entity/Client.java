@@ -42,7 +42,6 @@ public class Client extends AuditDomain {
     @Schema(description = "CPF do cliente", example = "123.456.789-00")
     private String phone;
 
-
     @Schema(description = "ID do Edereço no sistema de terceiros", example = "123e4567-e89b-12d3-a456-426614174000")
     @Column(name = "address_id")
     private UUID addressId;

@@ -1,7 +1,7 @@
 package br.com.bitsincloud.clientservice.api.controller;
 
-import br.com.bitsincloud.clientservice.api.dto.ClientRequestDTO;
-import br.com.bitsincloud.clientservice.api.dto.ClientResponseDTO;
+import br.com.bitsincloud.clientservice.api.model.request.ClientRequest;
+import br.com.bitsincloud.clientservice.api.model.response.ClientResponse;
 import br.com.bitsincloud.clientservice.domain.service.ClientService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -45,12 +45,12 @@ public class ClientController {
                     @ApiResponse(responseCode = "400", description = "Dados inválidos")
             }
     )
-    public ResponseEntity<ClientResponseDTO> create(@Valid @RequestBody ClientRequestDTO clientRequestDTO) {
-        ClientResponseDTO clientResponseDTO = service.create(clientRequestDTO);
+    public ResponseEntity<ClientResponse> create(@Valid @RequestBody ClientRequest clientRequest) {
+        ClientResponse clientResponse = service.create(clientRequest);
 
-        logger.info("Cliente criado com sucesso: {}", clientResponseDTO);
-        URI location = URI.create(String.format("/v1/clients/%s", clientResponseDTO.getId()));
-        return ResponseEntity.created(location).body(clientResponseDTO);
+        logger.info("Cliente criado com sucesso: {}", clientResponse);
+        URI location = URI.create(String.format("/v1/clients/%s", clientResponse.getId()));
+        return ResponseEntity.created(location).body(clientResponse);
     }
 
     @GetMapping
@@ -62,7 +62,7 @@ public class ClientController {
                     @ApiResponse(responseCode = "404", description = "Cliente não encontrado")
             }
     )
-    public List<ClientResponseDTO> list() {
+    public List<ClientResponse> list() {
         return service.listAll();
     }
 
@@ -75,7 +75,7 @@ public class ClientController {
                     @ApiResponse(responseCode = "404", description = "Cliente não encontrado")
             }
     )
-    public ResponseEntity<ClientResponseDTO> getById(
+    public ResponseEntity<ClientResponse> getById(
             @Parameter(description = "ID do cliente", required = true)
             @PathVariable UUID id) {
         return ResponseEntity.ok(service.findById(id));

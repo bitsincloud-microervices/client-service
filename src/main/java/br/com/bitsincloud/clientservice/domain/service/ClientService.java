@@ -1,7 +1,7 @@
 package br.com.bitsincloud.clientservice.domain.service;
 
-import br.com.bitsincloud.clientservice.api.dto.ClientRequestDTO;
-import br.com.bitsincloud.clientservice.api.dto.ClientResponseDTO;
+import br.com.bitsincloud.clientservice.api.model.request.ClientRequest;
+import br.com.bitsincloud.clientservice.api.model.response.ClientResponse;
 import br.com.bitsincloud.clientservice.domain.entity.Client;
 import br.com.bitsincloud.clientservice.api.exception.ClientNotFoundException;
 import br.com.bitsincloud.clientservice.domain.entity.ClientDocument;
@@ -24,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -61,19 +62,21 @@ public class ClientService {
         this.publisher = publisher;
     }
 
-    public ClientResponseDTO create(ClientRequestDTO requestDTO) {
+    public ClientResponse create(ClientRequest requestDTO) {
         if (!ValidateUtils.validateCpf(requestDTO.getCpf())) {
             throw new IllegalArgumentException("CPF inválido");
         }
 
         Client client = clientMapper.toEntity(requestDTO);
 
-        UUID addressId = addressClient.resolveStreetToId(requestDTO.getAddress());
-        if (addressId == null) {
-            throw new IllegalArgumentException("Endereço inválido");
-        }
+        //UUID addressId = addressClient.resolveStreetToId(requestDTO.getAddress());
+        // if (addressId == null) {
+        //     throw new IllegalArgumentException("Endereço inválido");
+        // }
 
+        UUID addressId = UUID.randomUUID();
         client.setAddressId(addressId);
+        client.setPhone(String.valueOf(new Random().nextInt(1000000000) + 1));
         client = clientRepository.save(client);
 
         if (publishEnabled) {
@@ -85,7 +88,7 @@ public class ClientService {
         return clientMapper.toDTO(client);
     }
 
-    public List<ClientResponseDTO> listAll() {
+    public List<ClientResponse> listAll() {
         List<Client> clients = clientRepository.findAll();
 
         if (clients.isEmpty()) {
@@ -98,7 +101,7 @@ public class ClientService {
                 .collect(Collectors.toList());
     }
 
-    public ClientResponseDTO findById(UUID id) {
+    public ClientResponse findById(UUID id) {
         Client client = clientRepository.findById(id)
                 .orElseThrow(() -> new ClientNotFoundException("Client not found"));
 
@@ -142,7 +145,7 @@ public class ClientService {
         Files.createDirectories(Paths.get(directory));
         return directory;
     }
-    
+
     private void validateInputs(MultipartFile file, UUID clientId, String docType) {
         if (file == null || file.isEmpty()) {
             throw new IllegalArgumentException("Arquivo inválido");
